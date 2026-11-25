@@ -24,6 +24,16 @@ final class Session
         return $_SESSION['user'] ?? null;
     }
 
+    public static function requireUser(): ?array
+    {
+        $user = self::user();
+        if ($user === null) {
+            header('Location: /login', true, 303);
+        }
+
+        return $user;
+    }
+
     public static function signIn(int $id, string $name): void
     {
         session_regenerate_id(true);

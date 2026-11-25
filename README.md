@@ -28,5 +28,6 @@ Use `docker compose ps` para consultar o estado dos serviços. Para parar o ambi
 
 - `public/index.php` recebe a requisição e o roteador chama o controlador correspondente.
 - `app/Controllers/` coordena o fluxo e carrega a visão. A rota inicial chama `HomeController`, que renderiza `app/Views/home.php`.
+- O dashboard e a rota `/tarefas` exigem login e exibem apenas as tarefas da conta logada. A tela **Gerenciar tarefas** está disponível para consulta nesta etapa.
 - `app/Models/` contém os repositórios que consultam o banco. As tarefas são consultadas pelo identificador do usuário.
 - `app/Core/Database.php` usa Singleton para reutilizar uma conexão PDO na mesma requisição. Em `app/Models/`, `RepositoryFactory::make()` fornece essa conexão e delega a construção do repositório ao Factory Method `createRepository()`, implementado pelas fábricas de usuários e tarefas.
