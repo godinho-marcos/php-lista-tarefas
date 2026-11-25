@@ -20,7 +20,7 @@ final class HomeController
             return;
         }
 
-        $title = 'Agenda de Estudos';
+        $title = 'Dashboard';
         $csrf = Session::csrfToken();
         $tasks = $this->tasks->make()->findByUserId($user['id']);
         require __DIR__ . '/../Views/home.php';
