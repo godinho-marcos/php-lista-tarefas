@@ -13,6 +13,11 @@ final class Router
         $this->routes[$path]['GET'] = $handler;
     }
 
+    public function post(string $path, callable $handler): void
+    {
+        $this->routes[$path]['POST'] = $handler;
+    }
+
     public function dispatch(string $method, string $uri): void
     {
         $path = explode('?', $uri, 2)[0];

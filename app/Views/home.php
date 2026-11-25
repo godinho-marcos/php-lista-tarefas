@@ -8,7 +8,11 @@
 <body>
     <main>
         <h1><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></h1>
-        <p>Página inicial da agenda de tarefas de estudo.</p>
+        <p>Olá, <?= htmlspecialchars($user['name'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>.</p>
+        <form action="/logout" method="post">
+            <input type="hidden" name="csrf" value="<?= htmlspecialchars($csrf, ENT_QUOTES, 'UTF-8') ?>">
+            <button type="submit">Sair</button>
+        </form>
     </main>
 </body>
 </html>

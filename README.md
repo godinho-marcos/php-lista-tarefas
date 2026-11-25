@@ -12,7 +12,7 @@ docker compose up -d --build
 
 No PowerShell, use `Copy-Item .env.example .env` para copiar a configuração.
 
-Abra [http://localhost:8080](http://localhost:8080) para ver a página inicial da Agenda de Estudos. Se a porta estiver ocupada, altere `APP_PORT` no arquivo `.env`.
+Abra [http://localhost:8080](http://localhost:8080), clique em **Criar conta** e entre com seu e-mail e senha. A página inicial exige login e oferece a opção **Sair**. Se a porta estiver ocupada, altere `APP_PORT` no arquivo `.env`.
 
 O PHP acessa o MySQL na rede interna do Compose. As credenciais do exemplo são para uso local. Na primeira inicialização de um volume novo, o MySQL cria o banco, o usuário da aplicação e as tabelas `usuarios` e `tarefas` a partir de `database/schema.sql`.
 
