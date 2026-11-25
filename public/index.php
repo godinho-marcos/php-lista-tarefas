@@ -18,9 +18,15 @@ header('Cache-Control: no-store');
 
 $auth = new AuthController(new UserRepositoryFactory());
 $tasks = new TaskRepositoryFactory();
+$taskController = new TaskController($tasks);
 $router = new Router();
 $router->get('/', [new HomeController($tasks), 'show']);
-$router->get('/tarefas', [new TaskController($tasks), 'index']);
+$router->get('/tarefas', [$taskController, 'index']);
+$router->get('/tarefas/nova', [$taskController, 'newForm']);
+$router->post('/tarefas/nova', [$taskController, 'create']);
+$router->get('/tarefas/editar', [$taskController, 'editForm']);
+$router->post('/tarefas/editar', [$taskController, 'update']);
+$router->post('/tarefas/excluir', [$taskController, 'delete']);
 $router->get('/cadastro', [$auth, 'showRegistration']);
 $router->post('/cadastro', [$auth, 'register']);
 $router->get('/login', [$auth, 'showLogin']);
