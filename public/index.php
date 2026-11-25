@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
-header('Content-Type: text/plain; charset=UTF-8');
+use App\Controllers\HomeController;
+use App\Core\Router;
 
-echo "Agenda de Estudos — PHP em execução.\n";
+require dirname(__DIR__) . '/app/bootstrap.php';
+
+header('Content-Type: text/html; charset=UTF-8');
+
+$router = new Router();
+$router->get('/', [new HomeController(), 'show']);
+$router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

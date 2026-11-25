@@ -12,8 +12,21 @@ docker compose up -d --build
 
 No PowerShell, use `Copy-Item .env.example .env` para copiar a configuração.
 
-Abra [http://localhost:8080](http://localhost:8080). Nesta etapa, a página exibe uma mensagem que confirma a execução do PHP. Se a porta estiver ocupada, altere `APP_PORT` no arquivo `.env`.
+Abra [http://localhost:8080](http://localhost:8080) para ver a página inicial da Agenda de Estudos. Se a porta estiver ocupada, altere `APP_PORT` no arquivo `.env`.
 
-O MySQL é acessado pelo PHP na rede interna do Compose. As credenciais do exemplo são para uso local. O banco e o usuário são criados na primeira inicialização do volume.
+O PHP acessa o MySQL na rede interna do Compose. As credenciais do exemplo são para uso local. Na primeira inicialização de um volume novo, o MySQL cria o banco, o usuário da aplicação e as tabelas `usuarios` e `tarefas` a partir de `database/schema.sql`.
+
+Se já subiu os serviços na etapa anterior, execute o comando abaixo após o `docker compose up` para aplicar o esquema no volume existente. O script cria somente as tabelas que faltam.
+
+```sh
+docker compose exec db sh -c 'mysql -u "$MYSQL_USER" --password="$MYSQL_PASSWORD" "$MYSQL_DATABASE" < /docker-entrypoint-initdb.d/01-schema.sql'
+```
 
 Use `docker compose ps` para consultar o estado dos serviços. Para parar o ambiente, execute `docker compose down`. O volume do MySQL preserva os dados entre execuções.
+
+## Estrutura MVC
+
+- `public/index.php` recebe a requisição e o roteador chama o controlador correspondente.
+- `app/Controllers/` coordena o fluxo e carrega a visão. A rota inicial chama `HomeController`, que renderiza `app/Views/home.php`.
+- `app/Models/` contém os repositórios que consultam o banco. As tarefas são consultadas pelo identificador do usuário.
+- `app/Core/Database.php` usa Singleton para reutilizar uma conexão PDO na mesma requisição. Em `app/Models/`, `RepositoryFactory::make()` fornece essa conexão e delega a construção do repositório ao Factory Method `createRepository()`, implementado pelas fábricas de usuários e tarefas.
